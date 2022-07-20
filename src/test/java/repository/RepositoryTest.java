@@ -1,5 +1,6 @@
 package repository;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -9,6 +10,16 @@ import org.junit.jupiter.api.Test;
 
 public class RepositoryTest {
 
+//	@Test
+//	public void testConnection() {
+//
+//		DatabaseConnector databaseConnector = new DatabaseConnector();
+//
+//		Session session = databaseConnector.startTransaction();
+//
+//		assertNotNull(session);
+//	}
+//	
 //	@Test
 //	public void getAll() {
 //
@@ -37,21 +48,21 @@ public class RepositoryTest {
 //		assertEquals(result.size(), 3);
 //	}
 
-	@Test
-	public void delete() {
-
-		DatabaseConnector databaseConnector = new DatabaseConnector();
-
-		Session session = databaseConnector.startTransaction();
-
-		session.beginTransaction();
-		
-		int rows = session.createQuery("DELETE FROM TrackingReport t WHERE t.id = :id")
-				.setParameter("id", 8L).executeUpdate();
-
-		session.getTransaction().commit();
-		session.close();
-
-		assertTrue(rows > 0);
-	}
+//	@Test
+//	public void delete() {
+//
+//		DatabaseConnector databaseConnector = new DatabaseConnector();
+//
+//		Session session = databaseConnector.startTransaction();
+//
+//		session.beginTransaction();
+//		
+//		int rows = session.createQuery("DELETE FROM TrackingReport t WHERE t.id = :id")
+//				.setParameter("id", 8L).executeUpdate();
+//
+//		session.getTransaction().commit();
+//		session.close();
+//
+//		assertTrue(rows > 0);
+//	}
 }
