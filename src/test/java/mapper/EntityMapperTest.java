@@ -1,14 +1,13 @@
 package mapper;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 import entity.TrackingReport;
 import repository.DatabaseConnector;
@@ -38,7 +37,7 @@ public class EntityMapperTest {
 
 		System.out.println(trackingReportsJson.get(0));
 		
-		assertEquals(trackingReportsJson.size(), 3);
+		Assertions.assertEquals(trackingReportsJson.size(), 3);
 	}
 
 }

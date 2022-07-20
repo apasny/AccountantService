@@ -1,12 +1,5 @@
 package repository;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-
-import org.hibernate.Session;
-import org.junit.jupiter.api.Test;
-
 
 public class RepositoryTest {
 
