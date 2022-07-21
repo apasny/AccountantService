@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import entity.TrackingReport;
 
-@Service
+
 public interface TrackingService {
 
 	List<TrackingReport> findAll();
