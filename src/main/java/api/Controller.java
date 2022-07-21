@@ -23,43 +23,46 @@ import service.TrackingService;
 @RestController
 public class Controller {
 
-	@Autowired
-	private TrackingService service;
+    private final TrackingService service;
+    private final EntityMapper entityMapper;
 
-	@Autowired
-	private EntityMapper entityMapper;
+    @Autowired
+    public Controller(TrackingService service, EntityMapper entityMapper) {
+        this.service = service;
+        this.entityMapper = entityMapper;
+    }
 
-	@GetMapping(value = "/trackings", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<TrackingReport>> getAllTrackings() {
+    @GetMapping(value = "/trackings", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<TrackingReport>> getAllTrackings() {
 
-		List<TrackingReport> trackingReports = service.findAll();
+        List<TrackingReport> trackingReports = service.findAll();
 
-		return new ResponseEntity<List<TrackingReport>>(trackingReports, HttpStatus.OK);
-	}
+        return new ResponseEntity<List<TrackingReport>>(trackingReports, HttpStatus.OK);
+    }
 
-	@PostMapping("/trackings")
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public void saveTracking(@RequestBody String trackingReport) {
+    @PostMapping("/trackings")
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public void saveTracking(@RequestBody String trackingReport) {
 
-		TrackingReport trackingReportEntity = entityMapper.mapToEntity(trackingReport);
+        TrackingReport trackingReportEntity = entityMapper.mapToEntity(trackingReport);
 
-		service.save(trackingReportEntity);
-	}
+        service.save(trackingReportEntity);
+    }
 
-	@GetMapping(value = "/report", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<TrackingReport>> getReport() throws ParseException {
+    @GetMapping(value = "/report", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<TrackingReport>> getReport() throws ParseException {
 
-		List<TrackingReport> trackingReportsWithinThreeDays = entityMapper
-				.mapFromNativeQuery(service.findAllWithinThreeDays());
+        List<TrackingReport> trackingReportsWithinThreeDays = entityMapper
+                .mapFromNativeQuery(service.findAllWithinThreeDays());
 
-		return new ResponseEntity<List<TrackingReport>>(trackingReportsWithinThreeDays, HttpStatus.OK);
-	}
+        return new ResponseEntity<List<TrackingReport>>(trackingReportsWithinThreeDays, HttpStatus.OK);
+    }
 
-	@DeleteMapping("/trackings/{id}")
-	void deleteTrackingReport(@PathVariable Long id) {
-		service.deleteReportById(id);
-	}
+    @DeleteMapping("/trackings/{id}")
+    void deleteTrackingReport(@PathVariable Long id) {
+        service.deleteReportById(id);
+    }
 
 }
