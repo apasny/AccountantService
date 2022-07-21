@@ -1,73 +1,71 @@
 package repository;
 
-import java.util.List;
-
+import entity.TrackingReport;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import entity.TrackingReport;
+import java.util.List;
 
 @Component
 public class TrackingRepositoryImpl implements TrackingsRepository {
 
-	@Autowired
-	DatabaseConnector databaseConnector;
+    private final DatabaseConnector databaseConnector;
 
-	@Override
-	public boolean create(TrackingReport trackingReport) {
+    @Autowired
+    public TrackingRepositoryImpl(DatabaseConnector databaseConnector) {
+        this.databaseConnector = databaseConnector;
+    }
 
-		Session session = databaseConnector.startTransaction();
+    public boolean create(TrackingReport trackingReport) {
 
-		session.beginTransaction();
-		session.save(trackingReport);
-		session.getTransaction().commit();
-		session.close();
+        Session session = databaseConnector.startTransaction();
 
-		return true;
-	}
+        session.beginTransaction();
+        session.save(trackingReport);
+        session.getTransaction().commit();
+        session.close();
 
-	@Override
-	public TrackingReport read(Long trackingReportId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean update(Long trackingReportId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public TrackingReport read(Long trackingReportId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public boolean delete(Long trackingReportId) {
-		Session session = databaseConnector.startTransaction();
-		
-		int rows = session.createQuery("DELETE FROM TrackingReport T WHERE T.id = :id").setParameter("id", trackingReportId).executeUpdate();
-		
-		return rows > 0;
-	}
+    public boolean update(Long trackingReportId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	@Override
-	public List<TrackingReport> getAll() {
+    public boolean delete(Long trackingReportId) {
+        Session session = databaseConnector.startTransaction();
 
-		Session session = databaseConnector.startTransaction();
+        int rows = session.createQuery("DELETE FROM TrackingReport T WHERE T.id = :id").setParameter("id", trackingReportId).executeUpdate();
 
-		return session.createQuery("from TrackingReport", TrackingReport.class).getResultList();
-	}
+        return rows > 0;
+    }
 
-	public List<Object[]> getAllWithinThreeDays() {
-		String sqlQueryString = "SELECT * FROM tracking_reports WHERE CAST(tracking_date AS DATE) <= CAST(CURRENT_TIMESTAMP AS DATE) AND CAST(tracking_date AS DATE) > (CAST(CURRENT_TIMESTAMP AS DATE)-integer '3')";
+    public List<TrackingReport> getAll() {
 
-		Session session = databaseConnector.startTransaction();
+        Session session = databaseConnector.startTransaction();
 
-		@SuppressWarnings("unchecked")
-		NativeQuery<Object[]> query = session.createNativeQuery(sqlQueryString);
+        return session.createQuery("from TrackingReport", TrackingReport.class).getResultList();
+    }
 
-		List<Object[]> trackingReports = query.list();
+    public List<Object[]> getAllWithinThreeDays() {
+        String sqlQueryString = "SELECT * FROM tracking_reports WHERE CAST(tracking_date AS DATE) <= CAST(CURRENT_TIMESTAMP AS DATE) AND CAST(tracking_date AS DATE) > (CAST(CURRENT_TIMESTAMP AS DATE)-integer '3')";
 
-		return trackingReports;
-	}
+        Session session = databaseConnector.startTransaction();
+
+        @SuppressWarnings("unchecked")
+        NativeQuery<Object[]> query = session.createNativeQuery(sqlQueryString);
+
+        List<Object[]> trackingReports = query.list();
+
+        return trackingReports;
+    }
 
 }
