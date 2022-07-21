@@ -23,7 +23,7 @@ public class TrackingRepositoryImpl implements TrackingsRepository {
         Session session = databaseConnector.startTransaction();
 
         session.beginTransaction();
-        session.save(trackingReport);
+        session.persist(trackingReport);
         session.getTransaction().commit();
         session.close();
 
@@ -41,11 +41,11 @@ public class TrackingRepositoryImpl implements TrackingsRepository {
     }
 
     public boolean delete(Long trackingReportId) {
-        Session session = databaseConnector.startTransaction();
-
-        int rows = session.createQuery("DELETE FROM TrackingReport T WHERE T.id = :id").setParameter("id", trackingReportId).executeUpdate();
-
-        return rows > 0;
+//        Session session = databaseConnector.startTransaction();
+//
+//        int rows = session.createQuery("DELETE FROM TrackingReport T WHERE T.id = :id").setParameter("id", trackingReportId).executeUpdate();
+//
+        return true ;//rows > 0;
     }
 
     public List<TrackingReport> getAll() {
@@ -55,17 +55,12 @@ public class TrackingRepositoryImpl implements TrackingsRepository {
         return session.createQuery("from TrackingReport", TrackingReport.class).getResultList();
     }
 
-    public List<Object[]> getAllWithinThreeDays() {
+    public List<TrackingReport> getAllWithinThreeDays() {
         String sqlQueryString = "SELECT * FROM tracking_reports WHERE CAST(tracking_date AS DATE) <= CAST(CURRENT_TIMESTAMP AS DATE) AND CAST(tracking_date AS DATE) > (CAST(CURRENT_TIMESTAMP AS DATE)-integer '3')";
 
         Session session = databaseConnector.startTransaction();
 
-        @SuppressWarnings("unchecked")
-        NativeQuery<Object[]> query = session.createNativeQuery(sqlQueryString);
-
-        List<Object[]> trackingReports = query.list();
-
-        return trackingReports;
+        return session.createNativeQuery(sqlQueryString, TrackingReport.class).list();
     }
 
 }

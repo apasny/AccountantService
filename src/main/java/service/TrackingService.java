@@ -13,7 +13,7 @@ public interface TrackingService {
 	List<TrackingReport> findAll();
 	Optional<TrackingReport> findById(Long id);
 	void save(TrackingReport tracking);
-	List<Object[]> findAllWithinThreeDays();
+	List<TrackingReport> findAllWithinThreeDays();
 	void deleteReportById(Long id);
 	
 }

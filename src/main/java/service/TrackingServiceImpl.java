@@ -36,7 +36,7 @@ public class TrackingServiceImpl implements TrackingService {
 	}
 
 	@Override
-	public List<Object[]> findAllWithinThreeDays() {
+	public List<TrackingReport> findAllWithinThreeDays() {
 		return repository.getAllWithinThreeDays();
 	}
 

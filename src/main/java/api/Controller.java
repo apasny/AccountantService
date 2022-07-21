@@ -54,10 +54,9 @@ public class Controller {
     @ResponseBody
     public ResponseEntity<List<TrackingReport>> getReport() throws ParseException {
 
-        List<TrackingReport> trackingReportsWithinThreeDays = entityMapper
-                .mapFromNativeQuery(service.findAllWithinThreeDays());
+        List<TrackingReport> trackingReportsWithinThreeDays = service.findAllWithinThreeDays();
 
-        return new ResponseEntity<List<TrackingReport>>(trackingReportsWithinThreeDays, HttpStatus.OK);
+        return new ResponseEntity<>(trackingReportsWithinThreeDays, HttpStatus.OK);
     }
 
     @DeleteMapping("/trackings/{id}")
